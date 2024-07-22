@@ -5,6 +5,7 @@ from airflow.utils.decorators import apply_defaults
 
 class StageToRedshiftOperator(BaseOperator):
     ui_color = '#358140'
+    template_fields = ("s3_key",)
 
     @apply_defaults
     def __init__(self,
@@ -15,6 +16,8 @@ class StageToRedshiftOperator(BaseOperator):
                  s3_key="",
                  json_path="auto",
                  *args, **kwargs):
+
+        self.log.info(f"Received arguments: redshift_conn_id={redshift_conn_id}, aws_credentials_id={aws_credentials_id}, table={table}, s3_bucket={s3_bucket}, s3_key={s3_key}, json_path={json_path}")
 
         super(StageToRedshiftOperator, self).__init__(*args, **kwargs)
         self.redshift_conn_id = redshift_conn_id
